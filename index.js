@@ -29,7 +29,7 @@ function checkfile(file){
     });
     linenum = 0;
 }
-glob("C:/Users/your name/Desktop/gmod/addons/awarn3/**/*.lua", function (er, files) {
+glob("C:/Users/your name/Desktop/gmod/addons/**/*.lua", function (er, files) {
     files.forEach(function(file){
         checkfile(file);
     });
