@@ -10,25 +10,26 @@ var MATCHES = {
     OBFUSCATEDCODE2: { pattern: "\\[xX][0-9a-fA-F][0-9a-fA-F]", reason:"[Check 2] Obfuscated/Encrypted code which is often used for running backdoored code hiddenly"},
     GETFENV: { pattern: "getfenv", reason:"Calling to run function getFenv"},
     COMPILESTRING: { pattern: "compilestring", reason:"CompileString is often used for compiling obfuscated code and running it"},
-    GLOBAL: { pattern: " _G ", reason: "References global table, which is often used for generating obfuscated code"}
+    GLOBAL: { pattern: " _G ", reason: "References global table, which is often used for generating obfuscated code"},
+    BACKDOOR_TEXT: { pattern: "backdoor", reason: "Contains 'backdoor' text"}
 }
 function checkfile(file){
-    console.log("Scanning file: " + file);
+    console.log("Queued file: " + file);
     var linenum = 0;
     lineReader.eachLine(file, function(line) {
         linenum = linenum + 1;
         Object.values(MATCHES).forEach(function(match){
             if(line.match(match.pattern) || line.includes(match.pattern)){
-                console.log(chalk.red("[FOUND] " + line.trimLeft() + " (LINE #" + linenum + ")"));
-                console.log(chalk.yellow("    [LOCATION] " + file))
-                console.log(chalk.green("        [REASON] " + match.reason))
+                console.log(chalk.red("[FOUND] " + line.trimLeft()));
+                console.log(chalk.yellow("    [LOCATION] " + file + chalk.white(":" + linenum)));
+                console.log(chalk.green("        [REASON] " + match.reason));
                 console.log(" ");
             }
         });
     });
     linenum = 0;
 }
-glob("C:/Users/yourname/Desktop/gmodserver/garrysmod/addons/**/*.lua", function (er, files) {
+glob("C:/Users/mbm20/Desktop/mNetwork/gmod/AllAddons/awarn3/**/*.lua", function (er, files) {
     files.forEach(function(file){
         checkfile(file);
     });
